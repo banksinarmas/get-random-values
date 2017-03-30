@@ -1,5 +1,5 @@
 var window = require('global/window');
-var nodeCrypto = require('crypto');
+var randomBytes = require('react-native-randombytes');
 
 function getRandomValues(buf) {
   if (window.crypto && window.crypto.getRandomValues) {
@@ -8,7 +8,7 @@ function getRandomValues(buf) {
   if (typeof window.msCrypto === 'object' && typeof window.msCrypto.getRandomValues === 'function') {
     return window.msCrypto.getRandomValues(buf);
   }
-  if (nodeCrypto.randomBytes) {
+  if (randomBytes) {
     if (!(buf instanceof Uint8Array)) {
       throw new TypeError('expected Uint8Array');
     }
@@ -21,7 +21,7 @@ function getRandomValues(buf) {
       e.name = 'QuotaExceededError';
       throw e;
     }
-    var bytes = nodeCrypto.randomBytes(buf.length);
+    var bytes = randomBytes(buf.length);
     buf.set(bytes);
     return buf;
   }
